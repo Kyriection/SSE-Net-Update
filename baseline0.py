@@ -96,14 +96,14 @@ def main():
                       dimension_reduction = None if args.pretrained else 256)
     feature = mpncovresnet50(pretrained = True)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
-    model = nn.Sequential(feature, representation, fc)
+    model = nn.Sequential(feature, representation, nn.Flatten(2,3), fc)
     print(model)
     LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
     params_list = [{'params': model[0].parameters(), 'lr': args.lr,
                         'weight_decay': args.weight_decay},]
     params_list.append({'params': model[1].parameters(), 'lr': args.lr,
                         'weight_decay': args.weight_decay})
-    params_list.append({'params': model[2].parameters(),
+    params_list.append({'params': model[3].parameters(),
                         'lr': args.lr*args.classifier_factor,
                         'weight_decay': 0. if args.arch.startswith('vgg') else args.weight_decay})
     optimizer = torch.optim.SGD(params_list, lr=args.lr,
