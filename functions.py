@@ -8,7 +8,7 @@ import scipy.io as sio
 import torch
 import torch.nn as nn
 import numpy as np
-from src.torchviz import  make_dot, make_dot_from_trace
+from dot import  make_dot, make_dot_from_trace
 
 
 class stats:
