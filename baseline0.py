@@ -385,6 +385,10 @@ def clip_gradient(optimizer, grad_clip):
             if param.grad is not None:
                 param.grad.data.clamp_(-grad_clip, grad_clip)
 
+def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
+    torch.save(state, filename[0])
+    if is_best:
+        shutil.copyfile(filename[0], filename[1])
 
 if __name__ == '__main__':
     main()

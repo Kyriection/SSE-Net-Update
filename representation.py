@@ -70,25 +70,17 @@ class MPNCOV(nn.Module):
 
      def forward(self, x):
 
-        if not isinstance(x, tuple):
-            if self.dr is not None:
-                x = self.conv_dr_block(x)
-            x = self._cov_pool(x)
-            if self.is_sqrt:
-                x = self._sqrtm(x)
-            if self.is_vec:
-                x = self._triuvec(x)
-            return x
-        else:
-            fusion = x
-            if self.dr is not None:
-                fusion = self.conv_dr_block(fusion)
-            fusion = self._cov_pool(fusion)
-            if self.is_sqrt:
-                fusion = self._sqrtm(fusion)
-            if self.is_vec:
-                fusion = self._triuvec(fusion)
-            return fusion
+        fusion = x
+        if self.dr is not None:
+            fusion = self.conv_dr_block(fusion)
+        fusion = self._cov_pool(fusion)
+        if self.is_sqrt:
+            fusion = self._sqrtm(fusion)
+        if self.is_vec:
+            fusion = self._triuvec(fusion)
+        
+        print(fusion.shape)
+        return fusion
 
 class Covpool(Function):
      @staticmethod
