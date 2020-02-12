@@ -83,6 +83,7 @@ parser.add_argument('--benchmark', default=None, type=str,
                     help='name of dataset')
 parser.add_argument('--reduction', default=0, type=int,
                     help='reduction')
+best_prec1 = 0
 
 def main():
     global args, best_prec1
