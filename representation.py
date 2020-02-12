@@ -79,7 +79,6 @@ class MPNCOV(nn.Module):
         if self.is_vec:
             fusion = self._triuvec(fusion)
         
-        print(fusion.shape)
         return fusion
 
 class Covpool(Function):
