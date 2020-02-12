@@ -24,6 +24,7 @@ from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
 from models import mpncovresnet50
 
+from torchvision import datasets
 from functions import *
 from imagepreprocess import *
 
