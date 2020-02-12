@@ -96,7 +96,7 @@ def main():
                       dimension_reduction = None if args.pretrained else 256)
     feature = mpncovresnet50(pretrained = True)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
-    model = nn.Sequential(feature, representation, nn.Flatten(2,3), fc)
+    model = nn.Sequential(feature, representation, nn.Flatten(1,2), fc)
     print(model)
     LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
     params_list = [{'params': model[0].parameters(), 'lr': args.lr,
