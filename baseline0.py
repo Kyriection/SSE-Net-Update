@@ -97,7 +97,8 @@ def main():
     feature = mpncovresnet50(pretrained = True)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
     model = nn.Sequential(feature, representation, fc)
-    
+    print(model)
+    LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
     params_list = [{'params': model[0].parameters(), 'lr': args.lr,
                         'weight_decay': args.weight_decay},]
     params_list.append({'params': model[1].parameters(), 'lr': args.lr,
