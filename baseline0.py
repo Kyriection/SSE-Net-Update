@@ -242,8 +242,8 @@ def validate(val_loader, model, criterion):
         end = time.time()
         for i, (input, target) in enumerate(val_loader):
             if torch.cuda.is_available():
-            input = input.cuda()
-            target = target.cuda()
+                input = input.cuda()
+                target = target.cuda()
 
             # compute output
             ## modified by jiangtao xie
