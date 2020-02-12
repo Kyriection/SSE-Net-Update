@@ -188,9 +188,9 @@ def train(train_loader, model, criterion, optimizer, epoch):
         # measure data loading time
         data_time.update(time.time() - end)
 
-        if args.gpu is not None:
-            input = input.cuda(args.gpu, non_blocking=True)
-        target = target.cuda(args.gpu, non_blocking=True)
+        if torch.cuda.is_available():
+            input = input.cuda()
+            target = target.cuda()
 
         # compute output
         output = model(input)   
@@ -241,9 +241,9 @@ def validate(val_loader, model, criterion):
     with torch.no_grad():
         end = time.time()
         for i, (input, target) in enumerate(val_loader):
-            if args.gpu is not None:
-                input = input.cuda(args.gpu, non_blocking=True)
-            target = target.cuda(args.gpu, non_blocking=True)
+            if torch.cuda.is_available():
+            input = input.cuda()
+            target = target.cuda()
 
             # compute output
             ## modified by jiangtao xie
