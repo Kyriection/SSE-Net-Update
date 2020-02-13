@@ -83,6 +83,7 @@ parser.add_argument('--benchmark', default=None, type=str,
                     help='name of dataset')
 parser.add_argument('--reduction', default=0, type=int,
                     help='reduction')
+parser.add_argument('--self-supervised', default='', type=str, metavar='PATH')
 best_prec1 = 0
 
 def main():
@@ -119,21 +120,23 @@ def main():
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             checkpoint = torch.load(args.resume)
-            #args.start_epoch = checkpoint['epoch']
+            args.start_epoch = checkpoint['epoch']
             best_prec1 = checkpoint['best_prec1']
-            try:
-                model.load_state_dict(checkpoint['state_dict'])
-            except RuntimeError:
-                del checkpoint['state_dict']['3.weight']
-                del checkpoint['state_dict']['3.bias']
-                model.load_state_dict(checkpoint['state_dict'], strict = False)
-                
+            model.load_state_dict(checkpoint['state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer'])
             print("=> loaded checkpoint '{}' (epoch {})"
                   .format(args.resume, checkpoint['epoch']))
         else:
             print("=> no checkpoint found at '{}'".format(args.resume))
-        
+    if args.self_supervised:
+        if os.path.isfile(args.self_supervised):
+            print("=> loading checkpoint '{}'".format(args.self_supervised))
+            checkpoint = torch.load(args.self_supervised)
+            del checkpoint['state_dict']['3.weight']
+            del checkpoint['state_dict']['3.bias']
+            model.load_state_dict(checkpoint['state_dict'])
+            print("=> loaded checkpoint '{}'"
+                  .format(args.self_supervised))
     cudnn.benchmark = True
     
     traindir = os.path.join(args.data, 'train')
