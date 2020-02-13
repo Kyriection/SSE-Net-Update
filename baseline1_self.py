@@ -211,7 +211,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         # compute output
         #print(input.shape)
         #print(target.shape)
-        #input, target = rotation(input)
+        input, target = rotation(input)
         #print(input.shape)
         #print(target.shape)
         output = model(input)   
