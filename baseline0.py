@@ -134,7 +134,7 @@ def main():
             checkpoint = torch.load(args.self_supervised)
             del checkpoint['state_dict']['3.weight']
             del checkpoint['state_dict']['3.bias']
-            model.load_state_dict(checkpoint['state_dict'])
+            model.load_state_dict(checkpoint['state_dict'], strict = False)
             print("=> loaded checkpoint '{}'"
                   .format(args.self_supervised))
     cudnn.benchmark = True
