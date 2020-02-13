@@ -218,7 +218,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         loss = criterion(output, target)
 
         # measure accuracy and record loss
-        prec1, prec5 = accuracy(output, target, topk=(1, 4))
+        prec1, prec5 = accuracy(output, target, topk=(1, 3))
         losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
         top5.update(prec5[0], input.size(0))
@@ -258,7 +258,6 @@ def validate(val_loader, model, criterion):
 
     # switch to evaluate mode
     model.eval()
-
     with torch.no_grad():
         end = time.time()
         for i, (input, target) in enumerate(val_loader):
@@ -284,7 +283,7 @@ def validate(val_loader, model, criterion):
                 print(target)
             #print(loss)
             # measure accuracy and record loss
-            prec1, prec5 = accuracy(output, target, topk=(1, 4))
+            prec1, prec5 = accuracy(output, target, topk=(1, 3))
             losses.update(loss.item(), input.size(0))
             top1.update(prec1[0], input.size(0))
             top5.update(prec5[0], input.size(0))
