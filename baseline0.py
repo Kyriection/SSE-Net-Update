@@ -94,7 +94,7 @@ def main():
                       is_sqrt = True,
                       is_vec = True,
                       input_dim = 2048,
-                      dimension_reduction = None if args.pretrained else 256)
+                      dimension_reduction = None)
     feature = mpncovresnet50(pretrained = True)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
     model = nn.Sequential(feature, representation, nn.Flatten(1,2), fc)
@@ -124,8 +124,8 @@ def main():
             try:
                 model.load_state_dict(checkpoint['state_dict'])
             except RuntimeError:
-                del checkpoint['fc.weight']
-                del checkpoint['fc.bias']
+                del checkpoint['3.weight']
+                del checkpoint['3.bias']
                 model.load_state_dict(checkpoint['state_dict'])
                 
             optimizer.load_state_dict(checkpoint['optimizer'])
