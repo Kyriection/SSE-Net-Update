@@ -413,7 +413,7 @@ def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
         
 def rotation(input):
     batch = input.shape[0]
-    target = torch.tensor(np.random.permutation([0,1,2,3] * int(batch / 4)), device = input.device)
+    target = torch.tensor(np.random.permutation([0,1,2,3] * (int(batch / 4) + 1)), device = input.device)[:batch]
     target = target.long()
     image = torch.zeros_like(input)
     image.copy_(input)
