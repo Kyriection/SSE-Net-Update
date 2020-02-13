@@ -126,7 +126,7 @@ def main():
             except RuntimeError:
                 del checkpoint['state_dict']['3.weight']
                 del checkpoint['state_dict']['3.bias']
-                model.load_state_dict(checkpoint['state_dict'])
+                model.load_state_dict(checkpoint['state_dict'], strict = False)
                 
             optimizer.load_state_dict(checkpoint['optimizer'])
             print("=> loaded checkpoint '{}' (epoch {})"
