@@ -119,7 +119,6 @@ class MPNCOVResNet(nn.Module):
         x = self.layer_reduce(x)
         x = self.layer_reduce_bn(x)
         x = self.layer_reduce_relu(x)
-        print(x.shape)
         #x = MPNCOV.CovpoolLayer(x)
         #x = MPNCOV.SqrtmLayer(x, 5)
         #x = MPNCOV.TriuvecLayer(x)

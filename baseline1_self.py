@@ -94,7 +94,7 @@ def main():
                       is_sqrt = True,
                       is_vec = True,
                       input_dim = 2048,
-                      dimension_reduction = 256)
+                      dimension_reduction = None)
     
     feature = mpncovresnet50(pretrained = args.pretrained)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
