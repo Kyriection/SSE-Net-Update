@@ -121,7 +121,13 @@ def main():
             checkpoint = torch.load(args.resume)
             args.start_epoch = checkpoint['epoch']
             best_prec1 = checkpoint['best_prec1']
-            model.load_state_dict(checkpoint['state_dict'])
+            try:
+                model.load_state_dict(checkpoint['state_dict'])
+            except RuntimeError:
+                del checkpoint['fc.weight']
+                del checkpoint['fc.bias']
+                model.load_state_dict(checkpoint['state_dict'])
+                
             optimizer.load_state_dict(checkpoint['optimizer'])
             print("=> loaded checkpoint '{}' (epoch {})"
                   .format(args.resume, checkpoint['epoch']))
