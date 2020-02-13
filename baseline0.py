@@ -124,8 +124,8 @@ def main():
             try:
                 model.load_state_dict(checkpoint['state_dict'])
             except RuntimeError:
-                del checkpoint['3.weight']
-                del checkpoint['3.bias']
+                del checkpoint['state_dict']['3.weight']
+                del checkpoint['state_dict']['3.bias']
                 model.load_state_dict(checkpoint['state_dict'])
                 
             optimizer.load_state_dict(checkpoint['optimizer'])
