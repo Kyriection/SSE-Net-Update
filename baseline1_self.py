@@ -208,6 +208,8 @@ def train(train_loader, model, criterion, optimizer, epoch):
             target = target.cuda()
 
         # compute output
+        print(input.shape)
+        print(target.shape)
         input, target = rotation(input)
         print(input.shape)
         print(target.shape)
