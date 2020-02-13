@@ -95,7 +95,8 @@ def main():
                       is_vec = True,
                       input_dim = 2048,
                       dimension_reduction = None if args.pretrained else 256)
-    feature = mpncovresnet50(pretrained = True)
+    
+    feature = mpncovresnet50(pretrained = args.pretrained)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
     model = nn.Sequential(feature, representation, nn.Flatten(1,2), fc)
     print(model)
@@ -208,11 +209,11 @@ def train(train_loader, model, criterion, optimizer, epoch):
             target = target.cuda()
 
         # compute output
-        print(input.shape)
-        print(target.shape)
-        input, target = rotation(input)
-        print(input.shape)
-        print(target.shape)
+        #print(input.shape)
+        #print(target.shape)
+        #input, target = rotation(input)
+        #print(input.shape)
+        #print(target.shape)
         output = model(input)   
         loss = criterion(output, target)
 
