@@ -111,7 +111,8 @@ def main():
     optimizer = torch.optim.SGD(params_list, lr=args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
-    criterion = nn.parallel.DataParallel(nn.CrossEntropyLoss())
+    #criterion = nn.parallel.DataParallel(nn.CrossEntropyLoss())
+    criterion = nn.CrossEntropyLoss()
     if torch.cuda.is_available():
         model = model.cuda()
         model = torch.nn.DataParallel(model)
