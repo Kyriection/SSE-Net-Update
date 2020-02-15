@@ -96,7 +96,7 @@ def main():
                       input_dim = 2048,
                       dimension_reduction = None)
     
-    feature = mpncovresnet50(pretrained = args.pretrained)
+    feature = mpncovresnet50(pretrained = False)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
     model = nn.Sequential(feature, representation, nn.Flatten(1,2), fc)
     print(model)
