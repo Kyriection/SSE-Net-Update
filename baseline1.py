@@ -83,6 +83,7 @@ parser.add_argument('--benchmark', default=None, type=str,
                     help='name of dataset')
 parser.add_argument('--reduction', default=0, type=int,
                     help='reduction')
+parser.add_argument('--self-supervised', default='', type=str, metavar='PATH')
 best_prec1 = 0
 
 def main():
@@ -95,7 +96,7 @@ def main():
                       is_vec = True,
                       input_dim = 2048,
                       dimension_reduction = None)
-    feature = mpncovresnet50(pretrained = True)
+    feature = mpncovresnet50(pretrained = False)
     fc = nn.Linear(int(256*(256+1)/2), args.num_classes)
     model = nn.Sequential(feature, representation, nn.Flatten(1,2), fc)
     print(model)
@@ -129,6 +130,15 @@ def main():
                   .format(args.resume, checkpoint['epoch']))
         else:
             print("=> no checkpoint found at '{}'".format(args.resume))
+    if args.self_supervised:
+        if os.path.isfile(args.self_supervised):
+            print("=> loading checkpoint '{}'".format(args.self_supervised))
+            checkpoint = torch.load(args.self_supervised)
+            del checkpoint['state_dict']['3.weight']
+            del checkpoint['state_dict']['3.bias']
+            model.load_state_dict(checkpoint['state_dict'], strict = False)
+            print("=> loaded checkpoint '{}'"
+                  .format(args.self_supervised))
     cudnn.benchmark = True
     
     traindir = os.path.join(args.data, 'train')
