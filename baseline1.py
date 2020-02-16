@@ -137,7 +137,7 @@ def main():
             pretrained_state = checkpoint['state_dict']
             pretrained_state.pop('3.weight')
             pretrained_state.pop('3.bias')
-            for p, v in pretrained_state:
+            for p in pretrained_state.keys():
                 print(p)
             for p, v in model.named_parameters():
                 print(p)
