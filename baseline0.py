@@ -197,6 +197,14 @@ def main():
         plot_curve(stats_, args.modeldir, True)
         data = stats_
         sio.savemat(os.path.join(args.modeldir,'stats.mat'), {'data':data})
+
+    if evaluate_transforms is not None:
+        model_file = os.path.join(args.modeldir, 'model_best.pth.tar')
+        print("=> loading best model '{}'".format(model_file))
+        print("=> start evaluation")
+        best_model = torch.load(model_file)
+        model.load_state_dict(best_model['state_dict'])
+        validate(evaluate_loader, model, criterion)
     
     
 def train(train_loader, model, criterion, optimizer, epoch):
