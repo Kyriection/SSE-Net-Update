@@ -134,9 +134,11 @@ def main():
         if os.path.isfile(args.self_supervised):
             print("=> loading checkpoint '{}'".format(args.self_supervised))
             checkpoint = torch.load(args.self_supervised)
-            del checkpoint['state_dict']['3.weight']
-            del checkpoint['state_dict']['3.bias']
-            model.load_state_dict(checkpoint['state_dict'], strict = False)
+            pretrained_state = checkpoint['state_dict']
+            pretrained_state.pop('3.weight')
+            pretrained_state.pop('3.bias')
+
+            model.load_state_dict(pretrained_state, strict = False)
             print("=> loaded checkpoint '{}'"
                   .format(args.self_supervised))
     cudnn.benchmark = True
