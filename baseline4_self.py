@@ -163,11 +163,11 @@ def main():
     for epoch in range(args.start_epoch, args.epochs):
         adjust_learning_rate(optimizer, LR.lr_factor, epoch)
         # train for one epoch
-        trainObj, top1, top5 = train(train_loader, model, criterion, optimizer, epoch)
+        trainObj, top1, top3 = train(train_loader, model, criterion, optimizer, epoch)
         # evaluate on validation set
         valObj, prec1, prec5 = validate(val_loader, model, criterion)
         # update stats
-        stats_._update(trainObj, top1, top5, valObj, prec1, prec5)
+        stats_._update(trainObj, top1, top3, valObj, prec1, prec5)
         # remember best prec@1 and save checkpoint
         is_best = prec1 > best_prec1
         best_prec1 = max(prec1, best_prec1)
@@ -194,7 +194,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     data_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
-    top5 = AverageMeter()
+    top3 = AverageMeter()
 
     # switch to train mode
     model.train()
@@ -217,7 +217,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         prec1, prec5 = accuracy(output, target, topk=(1, 3))
         losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
-        top5.update(prec5[0], input.size(0))
+        top3.update(prec5[0], input.size(0))
 
         #if args.diversity:
 
@@ -244,13 +244,13 @@ def train(train_loader, model, criterion, optimizer, epoch):
                    epoch, i, len(train_loader), batch_time=batch_time,
                    data_time=data_time, loss=losses, top1=top1, top3=top3))
                    #data_time=data_time, loss=losses))
-    return losses.avg, top1.avg, top5.avg
+    return losses.avg, top1.avg, top3.avg
 
 def validate(val_loader, model, criterion):
     batch_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
-    top5 = AverageMeter()
+    top3 = AverageMeter()
 
     # switch to evaluate mode
     model.eval()
@@ -282,7 +282,7 @@ def validate(val_loader, model, criterion):
             prec1, prec5 = accuracy(output, target, topk=(1, 3))
             losses.update(loss.item(), input.size(0))
             top1.update(prec1[0], input.size(0))
-            top5.update(prec5[0], input.size(0))
+            top3.update(prec5[0], input.size(0))
 
             # measure elapsed time
             batch_time.update(time.time() - end)
@@ -300,7 +300,7 @@ def validate(val_loader, model, criterion):
         print(' * Prec@1 {top1.avg:.3f} Prec@3 {top3.avg:.3f}'
               .format(top1=top1, top3=top3))
 
-    return losses.avg, top1.avg, top5.avg
+    return losses.avg, top1.avg, top3.avg
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
