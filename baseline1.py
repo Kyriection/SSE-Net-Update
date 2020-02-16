@@ -135,15 +135,16 @@ def main():
             print("=> loading checkpoint '{}'".format(args.self_supervised))
             checkpoint = torch.load(args.self_supervised)
             pretrained_state = checkpoint['state_dict']
-            pretrained_state.pop('3.weight')
-            pretrained_state.pop('3.bias')
-            for p in pretrained_state.keys():
-                print(p)
-            for p, v in model.named_parameters():
-                print(p)
+
+            pretrained_state.pop('module.3.weight')
+            pretrained_state.pop('module.3.bias')
+
+
             model.load_state_dict(pretrained_state, strict = False)
             print("=> loaded checkpoint '{}'"
                   .format(args.self_supervised))
+
+    
     cudnn.benchmark = True
     
     traindir = os.path.join(args.data, 'train')

@@ -114,7 +114,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     if torch.cuda.is_available():
         model = model.cuda()
-    
+        model = torch.nn.DataParallel(model)
     
     if args.resume:
         if os.path.isfile(args.resume):
