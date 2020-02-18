@@ -133,11 +133,11 @@ def main():
     model = torch.nn.parallel.DataParallel(model)
 
     LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
-    params_list = [{'params': model.model1.parameters(), 'lr': args.lr,
+    params_list = [{'params': model.module.model1.parameters(), 'lr': args.lr,
                         'weight_decay': args.weight_decay},]
-    params_list.append({'params': model.model2.parameters(), 'lr': args.lr,
+    params_list.append({'params': model.module.model2.parameters(), 'lr': args.lr,
                         'weight_decay': args.weight_decay})
-    params_list.append({'params': model.fc.parameters(),
+    params_list.append({'params': model.module.fc.parameters(),
                         'lr': args.lr*args.classifier_factor,
                         'weight_decay': 0. if args.arch.startswith('vgg') else args.weight_decay})
     optimizer = torch.optim.SGD(params_list, lr=args.lr,
