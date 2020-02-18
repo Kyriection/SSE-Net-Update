@@ -139,8 +139,9 @@ def main():
             pretrained_state.pop('module.3.weight')
             pretrained_state.pop('module.3.bias')
 
-
-            model.load_state_dict(pretrained_state, strict = True)
+            state_dict = model.state_dict()
+            state_dict.update(pretrained_state)
+            model.load_state_dict(state_dict)
             print("=> loaded checkpoint '{}'"
                   .format(args.self_supervised))
 
