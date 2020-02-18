@@ -432,6 +432,7 @@ def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
 
 class CombinedModel(nn.Module):
     def __init__(self, model1, model2, num_classes = 200):
+        super(CombinedModel, self).__init__()
         self.model1 = model1
         self.model2 = model2
         self.fc = nn.Linear(256 * (256 + 1), num_classes)
