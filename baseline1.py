@@ -140,7 +140,7 @@ def main():
             pretrained_state.pop('module.3.bias')
 
 
-            model.load_state_dict(pretrained_state, strict = False)
+            model.load_state_dict(pretrained_state, strict = True)
             print("=> loaded checkpoint '{}'"
                   .format(args.self_supervised))
 
