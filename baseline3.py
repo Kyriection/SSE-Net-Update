@@ -103,8 +103,8 @@ def main():
     #criterion = nn.parallel.DataParallel(nn.CrossEntropyLoss())
     criterion = nn.CrossEntropyLoss()
     if torch.cuda.is_available():
-        model1 = model.cuda()
-        model1 = torch.nn.DataParallel(model)
+        model1 = model1.cuda()
+        model1 = torch.nn.DataParallel(model1)
     
     if args.self_supervised:
         if os.path.isfile(args.self_supervised):
@@ -128,9 +128,9 @@ def main():
                       dimension_reduction = None)
     feature2 = mpncovresnet50(pretrained = True)
     model2 = nn.Sequential(feature2, representation2, nn.Flatten(1,2))
-
+    model2 = torch.nn.parallel.DataParallel(model2)
     model = CombinedModel(model1, model2, num_classes = args.num_classes)
-
+    model = torch.nn.parameters(model)
 
     LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
     params_list = [{'params': model.model1.parameters(), 'lr': args.lr,
