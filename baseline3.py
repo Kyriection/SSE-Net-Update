@@ -130,7 +130,7 @@ def main():
     model2 = nn.Sequential(feature2, representation2, nn.Flatten(1,2))
     model2 = torch.nn.parallel.DataParallel(model2)
     model = CombinedModel(model1, model2, num_classes = args.num_classes)
-    model = torch.nn.parameters(model)
+    model = torch.nn.parallel.DataParallel(model)
 
     LR = Learning_rate_generater(args.lr_method, args.lr_params, args.epochs)
     params_list = [{'params': model.model1.parameters(), 'lr': args.lr,
