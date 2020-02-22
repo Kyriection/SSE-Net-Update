@@ -357,7 +357,7 @@ class Learning_rate_generater(object):
     def step(self, params, total_epoch):
         decrease_until = params[0]
         decrease_num = len(decrease_until)
-        base_factor = 0.1
+        base_factor = 0.7
         lr_factor = torch.ones(total_epoch, dtype=torch.double)
         lr = [args.lr]
         for num in range(decrease_num):
