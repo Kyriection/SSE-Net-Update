@@ -21,16 +21,20 @@ CUDA_VISIBLE_DEVICES=5 nohup python baseline1.py --benchmark CUB --pretrained -p
 
 CUDA_VISIBLE_DEVICES=6 nohup python baseline1.py --benchmark CUB --pretrained -p 100 --lr 1.2e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b16 --lr-method step --lr-params 100 --freezed-layer 0  --self-supervised baseline1_rotation_self/model_best.pth.tar ~/data/CUB_200_2011/  > b16.out &
 
-CUDA_VISIBLE_DEVICES=0 nohup python baseline1.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b10 --lr-method step --lr-params 100 --freezed-layer 0  --self-supervised baseline1_rotation_0.001/model_best.pth.tar ~/data/CUB_200_2011/  > b10.out &
+CUDA_VISIBLE_DEVICES=0 nohup python baseline3.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b30 --lr-method step --lr-params 100 --freezed-layer 0  --self-supervised baseline1_rotation_0.001/model_best.pth.tar ~/CUB_200_2011/  > b30.out &
 
 CUDA_VISIBLE_DEVICES=1 nohup python baseline1.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b11 --lr-method step --lr-params 100 --freezed-layer 0  --self-supervised baseline1_rotation_0.001/model_best.pth.tar ~/CUB_200_2011 > b11.out &
 
 CUDA_VISIBLE_DEVICES=0 nohup python baseline0.py --benchmark CUB -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10  --num-classes 200 --classifier-factor 5 --modeldir baseline0 --lr-method step --lr-params 100 --freezed-layer 0 ~/data/CUB_200_2011/ &
 
-CUDA_VISIBLE_DEVICES=0 nohup python train_2s2t_mix.py --soft-label --self-paced-start 10 --self-paced-stop 50 --ema-start 50 --epoch 200 --use-meta-model --top1 0.4 --top2 0.6 -b 256 --type mu --type-noisy ori   --dataset cifar --datapath cifar --lr 5e-4 --gamma 0.03125 > 0.out &
+CUDA_VISIBLE_DEVICES=1 nohup python train_2s2t_mix.py --soft-label --self-paced-start 10 --self-paced-stop 50 --ema-start 50 --epoch 200 --use-meta-model --top1 0.4 --top2 0.6 -b 256 --type mu --type-noisy ori   --dataset cifar --datapath cifar --lr 5e-4 --gamma 0.03125 > 1.out &
+
+CUDA_VISIBLE_DEVICES=1 python iter_test.py --soft-label --self-paced-start 10 --self-paced-stop 50 --ema-start 50 --epoch 200 --use-meta-model --top1 0.4 --top2 0.6 -b 256 --type mu --type-noisy ori   --dataset cifar --datapath cifar --lr 5e-4 --gamma 0.03125
 
 CUDA_VISIBLE_DEVICES=3 nohup python baseline0.py --benchmark CUB -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10  --num-classes 200 --classifier-factor 5 --modeldir b03 --lr-method step --lr-params 100 --freezed-layer 0 ~/CUB_200_2011/ > b03.out &
 
 CUDA_VISIBLE_DEVICES=4 nohup python baseline1.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b14 --lr-method step --lr-params 100 --freezed-layer 0 --self-supervised baseline1_rotation_0.001/model_best.pth.tar ~/CUB_200_2011/ > b14.out &
 
 CUDA_VISIBLE_DEVICES=0 nohup python baseline1.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b40 --lr-method step --lr-params 100 --freezed-layer 0  --self-supervised baseline4_self/model_best.pth.tar ~/data/CUB_200_2011/  > b40.out &
+
+CUDA_VISIBLE_DEVICES=6 nohup python baseline3.py --benchmark CUB --pretrained -p 100 --lr 1e-3 --epochs 100 -j 8 -b 10 --num-classes 200 --classifier-factor 5 --modeldir b36 --lr-method step --lr-params 40 60 --freezed-layer 0  --self-supervised baseline1_rotation_0.001/model_best.pth.tar ~/CUB_200_2011/  > b36.out &
