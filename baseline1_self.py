@@ -165,9 +165,9 @@ def main():
         # train for one epoch
         trainObj, top1, top3 = train(train_loader, model, criterion, optimizer, epoch)
         # evaluate on validation set
-        valObj, prec1, prec5 = validate(val_loader, model, criterion)
+        valObj, prec1, prec3 = validate(val_loader, model, criterion)
         # update stats
-        stats_._update(trainObj, top1, top3, valObj, prec1, prec5)
+        stats_._update(trainObj, top1, top3, valObj, prec1, prec3)
         # remember best prec@1 and save checkpoint
         is_best = prec1 > best_prec1
         best_prec1 = max(prec1, best_prec1)
@@ -221,7 +221,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         prec1, prec3 = accuracy(output, target, topk=(1, 3))
         losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
-        top3.update(prec5[0], input.size(0))
+        top3.update(prec3[0], input.size(0))
 
         #if args.diversity:
 
