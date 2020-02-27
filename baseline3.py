@@ -105,7 +105,7 @@ def main():
     if torch.cuda.is_available():
         model1 = model1.cuda()
         model1 = torch.nn.DataParallel(model1)
-    
+    print(list(model1.state_dict().keys()))
     if args.self_supervised:
         if os.path.isfile(args.self_supervised):
             print("=> loading checkpoint '{}'".format(args.self_supervised))
