@@ -22,7 +22,7 @@ import scipy.io as io
 from collections import Counter
 from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
-from models import mpncovresnet50
+from models2 import mpncovresnet50
 from models_ssp import mpncovresnet50_pre
 
 from torchvision import datasets
