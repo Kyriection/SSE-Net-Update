@@ -4,7 +4,7 @@ import torch.utils.model_zoo as model_zoo
 import torch
 import os
 
-from representation import MPNCOV
+from representation import CovpoolLayer,SqrtmLayer,TriuvecLayer
 __all__ = ['MPNCOVResNet','mpncovresnet50', 'mpncovresnet101']
 
 
@@ -79,6 +79,7 @@ class MPNCOVResNet(nn.Module):
                                bias=False)
         self.layer_reduce_bn = nn.BatchNorm2d(256)
         self.layer_reduce_relu = nn.ReLU(inplace=True)
+        self.fc = nn.Linear(int(256*(256+1)/2), num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -118,11 +119,15 @@ class MPNCOVResNet(nn.Module):
         x = self.layer_reduce(x)
         x = self.layer_reduce_bn(x)
         x = self.layer_reduce_relu(x)
+        x = CovpoolLayer(x)
+        x = SqrtmLayer(x, 5)
+        x = TriuvecLayer(x)
+        x = x.view(x.size(0), -1)
 
         return x
 
 
-def mpncovresnet50(pretrained=False, **kwargs):
+def mpncovresnet50_pre(pretrained=False, **kwargs):
     """Constructs a ResNet-50 model.
 
     Args:
@@ -149,7 +154,10 @@ def mpncovresnet101(pretrained=False, **kwargs):
 if __name__ == '__main__':
     y = torch.ones(1,3,224,224)
     # model = nn.Sequential(mpncovresnet50(), nn.Flatten())
-    model = mpncovresnet50()
+    model = mpncovresnet50_v2()
+    # model_dict = model.state_dict()
+    # for key in model_dict.keys():
+    #     print(key)
     out = model(y)
     print(out.size())
 
